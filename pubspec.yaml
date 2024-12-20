@@ -1,0 +1,30 @@
+name: poultry_app
+description: "A new Flutter project."
+
+publish_to: 'none' # Prevent accidental publishing to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  shared_preferences: ^2.0.16  # Added shared_preferences dependency
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Assets section
+  assets:
+    - assets/chicken-farm-banner-with-white-chicken-cartoon-character_1308-90659.jpg
+    - assets/hen_151155842_1000.jpg
+    - assets/raw-eggs-arrangement_23-2151864112.jpg
+    - assets/vertical-closeup-shot-brown-chicken-blurred-background_181624-35804.jpg
