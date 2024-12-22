@@ -1,23 +1,23 @@
 name: poultry_app
-description: "A new Flutter project."
+description: "A new Flutter project for managing poultry operations."
 
 publish_to: 'none' # Prevent accidental publishing to pub.dev
 
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.5.4
+  sdk: '>=3.5.4 <4.0.0' # Ensure compatibility with Flutter/Dart SDK
 
 dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
-  shared_preferences: ^2.0.16  # Added shared_preferences dependency
+  shared_preferences: ^2.0.16 # Dependency for shared preferences
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^4.0.0 # Linter for enforcing Flutter best practices
 
 flutter:
   uses-material-design: true
