@@ -20,6 +20,62 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Wallet AppBar
+          Container(
+            color: Colors.orangeAccent,
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: Column(
+              children: [
+                const Text(
+                  'My Wallet',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 10.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    WalletActionIcon(
+                      icon: Icons.send,
+                      label: 'Send Money',
+                      onTap: () {
+                        // Navigate to Send Money Screen
+                        Navigator.pushNamed(context, '/send_money');
+                      },
+                    ),
+                    WalletActionIcon(
+                      icon: Icons.history,
+                      label: 'Transactions',
+                      onTap: () {
+                        // Navigate to Transactions Screen
+                        Navigator.pushNamed(context, '/transactions');
+                      },
+                    ),
+                    WalletActionIcon(
+                      icon: Icons.payment,
+                      label: 'Pay',
+                      onTap: () {
+                        // Navigate to Pay Screen
+                        Navigator.pushNamed(context, '/pay');
+                      },
+                    ),
+                    WalletActionIcon(
+                      icon: Icons.account_balance_wallet,
+                      label: 'Deposit Money',
+                      onTap: () {
+                        // Navigate to Deposit Money Screen
+                        Navigator.pushNamed(context, '/deposit_money');
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10.0),
           Center(
             child: Container(
               width: 100,
@@ -89,6 +145,48 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+class WalletActionIcon extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  const WalletActionIcon({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 25.0,
+            backgroundColor: Colors.white,
+            child: Icon(
+              icon,
+              size: 30.0,
+              color: Colors.orange,
+            ),
+          ),
+          const SizedBox(height: 5.0),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 12.0,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class ServiceIcon extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -106,8 +204,8 @@ class ServiceIcon extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 100, // Smaller width
-        height: 100, // Smaller height
+        width: 100,
+        height: 100,
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             colors: [Colors.orange, Colors.orangeAccent],
@@ -115,7 +213,7 @@ class ServiceIcon extends StatelessWidget {
             end: Alignment.bottomRight,
             stops: [0.2, 1],
           ),
-          borderRadius: BorderRadius.circular(16.0), // Rounder corners
+          borderRadius: BorderRadius.circular(16.0),
           boxShadow: const [
             BoxShadow(
               color: Colors.black26,
@@ -130,77 +228,18 @@ class ServiceIcon extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 40.0, color: Colors.white), // White icon
+              Icon(icon, size: 40.0, color: Colors.white),
               const SizedBox(height: 8.0),
               Text(
                 label,
                 style: const TextStyle(
                   fontSize: 14.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white, // White text for contrast
+                  color: Colors.white,
                 ),
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class UserProfileScreen extends StatelessWidget {
-  final String profileImage = 'assets/profile_picture.jpg'; // Add your default profile picture path here
-  final String fullName = 'liz joy';
-  final String username = 'liz_joy123';
-  final String accountType = 'Farmer'; // Can be dynamic (e.g., Farmer, Retailer, Wholesaler)
-  final String email = 'johndoe@example.com';
-  final String phone = '+1234567890';
-
-  const UserProfileScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('User Profile'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: CircleAvatar(
-                radius: 60.0,
-                backgroundImage: AssetImage(profileImage), // Display profile picture
-              ),
-            ),
-            const SizedBox(height: 20.0),
-            Text(
-              'Full Name: $fullName',
-              style: const TextStyle(fontSize: 18.0),
-            ),
-            const SizedBox(height: 10.0),
-            Text(
-              'Username: $username',
-              style: const TextStyle(fontSize: 18.0),
-            ),
-            const SizedBox(height: 10.0),
-            Text(
-              'Account Type: $accountType',
-              style: const TextStyle(fontSize: 18.0),
-            ),
-            const SizedBox(height: 10.0),
-            Text(
-              'Email: $email',
-              style: const TextStyle(fontSize: 18.0),
-            ),
-            const SizedBox(height: 10.0),
-            Text(
-              'Phone: $phone',
-              style: const TextStyle(fontSize: 18.0),
-            ),
-          ],
         ),
       ),
     );
