@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.8
   shared_preferences: ^2.0.16 # Dependency for shared preferences
+  image_picker: ^0.8.5+3 # Added image_picker dependency for profile image upload
 
 dev_dependencies:
   flutter_test:
@@ -28,3 +29,9 @@ flutter:
     - assets/hen_151155842_1000.jpg
     - assets/raw-eggs-arrangement_23-2151864112.jpg
     - assets/vertical-closeup-shot-brown-chicken-blurred-background_181624-35804.jpg
+    - assets/_MG_6048.JPG
+    - assets/20221011_015355.jpg
+    - assets/logo 5.jpg
+    - assets/logo.jpg
+    - assets/shoes.jpg
+    - assets/w4vzlj.jpg

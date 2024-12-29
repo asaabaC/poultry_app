@@ -1,5 +1,6 @@
 import 'product.dart'; // Import the Product model
 
+/// Represents an order with details about the user, products, total amount, and order date.
 class Order {
   final String id;
   final String userId;
@@ -7,7 +8,7 @@ class Order {
   final double totalAmount;
   final String orderDate;
 
-  // Constructor
+  /// Constructor for creating an Order object.
   Order({
     required this.id,
     required this.userId,
@@ -16,21 +17,20 @@ class Order {
     required this.orderDate,
   });
 
-  // Factory: Convert JSON to Order object
+  /// Factory constructor to create an Order object from a JSON map.
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(
       id: json['id'] ?? '',
       userId: json['userId'] ?? '',
-      products: (json['products'] as List<dynamic>?)
-              ?.map((item) => Product.fromJson(item))
-              .toList() ??
-          [],
+      products: (json['products'] as List<dynamic>? ?? [])
+          .map((item) => Product.fromJson(item))
+          .toList(),
       totalAmount: (json['totalAmount'] ?? 0.0).toDouble(),
       orderDate: json['orderDate'] ?? '',
     );
   }
 
-  // Convert Order object to JSON
+  /// Converts an Order object to a JSON map.
   Map<String, dynamic> toJson() {
     return {
       'id': id,

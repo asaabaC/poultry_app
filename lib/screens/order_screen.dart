@@ -5,6 +5,7 @@ import 'package:poultry_app/models/product.dart';
 class OrderDetailsScreen extends StatelessWidget {
   final Order order;
 
+  // Constructor for OrderDetailsScreen which requires 'order' as a named parameter
   const OrderDetailsScreen({Key? key, required this.order}) : super(key: key);
 
   @override
@@ -19,16 +20,19 @@ class OrderDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Order ID: ${order.id}',
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(
+              'Order ID: ${order.id}',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 8),
             Text('Order Date: ${order.orderDate}'),
             const SizedBox(height: 8),
             Text('Total Amount: \$${order.totalAmount}'),
             const SizedBox(height: 8),
-            const Text('Products:',
-                style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text(
+              'Products:',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             ...order.products.map((product) => _buildProductItem(product)),
           ],
         ),
@@ -40,7 +44,7 @@ class OrderDetailsScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Text(
-        '${product.name} x${product.quantity} - \$${product.price} each',
+        '${product.name} x${product.quantity} - \$${product.price} each - Location: ${product.location}',
         style: const TextStyle(fontSize: 16),
       ),
     );
@@ -53,8 +57,8 @@ class OrderScreen extends StatelessWidget {
       id: '001',
       userId: 'user1',
       products: [
-        Product(id: 'p1', name: 'Chicken - Whole', price: 20.0, quantity: 2),
-        Product(id: 'p2', name: 'Eggs (Dozen)', price: 12.0, quantity: 1),
+        Product(id: 'p1', name: 'Chicken - Whole', price: 20.0, quantity: 2, location: 'Freezer'),
+        Product(id: 'p2', name: 'Eggs (Dozen)', price: 12.0, quantity: 1, location: 'Refrigerator'),
       ],
       totalAmount: 52.0,
       orderDate: '2024-12-21',
@@ -63,7 +67,7 @@ class OrderScreen extends StatelessWidget {
       id: '002',
       userId: 'user1',
       products: [
-        Product(id: 'p3', name: 'Chicken - Breasts', price: 15.0, quantity: 1),
+        Product(id: 'p3', name: 'Chicken - Breasts', price: 15.0, quantity: 1, location: 'Freezer'),
       ],
       totalAmount: 15.0,
       orderDate: '2024-12-22',
@@ -92,9 +96,9 @@ class OrderScreen extends StatelessWidget {
                   children: [
                     Text('Order Date: ${order.orderDate}'),
                     Text('Total Amount: \$${order.totalAmount}'),
-                    Text('Products:'),
+                    const Text('Products:'),
                     ...order.products.map((product) => Text(
-                          '${product.name} x${product.quantity} - \$${product.price} each',
+                          '${product.name} x${product.quantity} - \$${product.price} each - Location: ${product.location}',
                         )),
                   ],
                 ),

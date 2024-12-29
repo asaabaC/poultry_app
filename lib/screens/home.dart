@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  HomeScreenState createState() => HomeScreenState();
+}
+
+class HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 1; // Default index for Home
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +49,6 @@ class HomeScreen extends StatelessWidget {
                       icon: Icons.send,
                       label: 'Send Money',
                       onTap: () {
-                        // Navigate to Send Money Screen
                         Navigator.pushNamed(context, '/send_money');
                       },
                     ),
@@ -50,7 +56,6 @@ class HomeScreen extends StatelessWidget {
                       icon: Icons.history,
                       label: 'Transactions',
                       onTap: () {
-                        // Navigate to Transactions Screen
                         Navigator.pushNamed(context, '/transactions');
                       },
                     ),
@@ -58,7 +63,6 @@ class HomeScreen extends StatelessWidget {
                       icon: Icons.payment,
                       label: 'Pay',
                       onTap: () {
-                        // Navigate to Pay Screen
                         Navigator.pushNamed(context, '/pay');
                       },
                     ),
@@ -66,7 +70,6 @@ class HomeScreen extends StatelessWidget {
                       icon: Icons.account_balance_wallet,
                       label: 'Deposit Money',
                       onTap: () {
-                        // Navigate to Deposit Money Screen
                         Navigator.pushNamed(context, '/deposit_money');
                       },
                     ),
@@ -104,9 +107,9 @@ class HomeScreen extends StatelessWidget {
           Expanded(
             child: GridView.count(
               crossAxisCount: 2,
-              padding: const EdgeInsets.all(14.0),
-              crossAxisSpacing: 14.0,
-              mainAxisSpacing: 14.0,
+              padding: const EdgeInsets.all(10.0),
+              crossAxisSpacing: 10.0,
+              mainAxisSpacing: 10.0,
               children: [
                 ServiceIcon(
                   icon: Icons.shopping_bag,
@@ -140,6 +143,42 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+            // Navigate to the selected page
+            switch (index) {
+              case 0:
+                Navigator.pushNamed(context, '/profile'); // My Account
+                break;
+              case 1:
+                // Already on Home
+                break;
+              case 2:
+                Navigator.pushNamed(context, '/activities'); // Activities
+                break;
+            }
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'My Account',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_activity),
+            label: 'Activities',
+          ),
+        ],
+        selectedItemColor: Colors.orange,
+        unselectedItemColor: Colors.grey,
       ),
     );
   }
@@ -204,8 +243,8 @@ class ServiceIcon extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 100,
-        height: 100,
+        width: 40, // Reduced size of the container
+        height: 40, // Reduced size of the container
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             colors: [Colors.orange, Colors.orangeAccent],
@@ -228,12 +267,12 @@ class ServiceIcon extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 40.0, color: Colors.white),
+              Icon(icon, size: 30.0, color: Colors.white), // Reduced icon size
               const SizedBox(height: 8.0),
               Text(
                 label,
                 style: const TextStyle(
-                  fontSize: 14.0,
+                  fontSize: 12.0, // Reduced label font size
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
