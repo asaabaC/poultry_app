@@ -30,11 +30,13 @@ class CustomerListScreen extends StatelessWidget {
     // Additional orders...
   ];
 
+  CustomerListScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Customer Orders'),
+        title: const Text('Customer Orders'),
         backgroundColor: Colors.orange,
       ),
       body: ListView.builder(
@@ -42,7 +44,7 @@ class CustomerListScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           final order = orders[index];
           return Card(
-            margin: EdgeInsets.all(8.0),
+            margin: const EdgeInsets.all(8.0),
             child: ListTile(
               leading: Icon(
                 order['status'] == 'Pending'

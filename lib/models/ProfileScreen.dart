@@ -8,11 +8,11 @@ class ProfileScreen extends StatelessWidget {
 
   // Constructor to accept parameters
   const ProfileScreen({
-    Key? key,
+    super.key,
     required this.userName,
     required this.userEmail,
     required this.profileImage,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

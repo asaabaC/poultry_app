@@ -1,7 +1,7 @@
 // login_screen.dart
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'profile_screen.dart'; // Make sure ProfileScreen is imported correctly
+// Make sure ProfileScreen is imported correctly
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -45,7 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // Show an error message in a SnackBar
   void _showErrorSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   // Handle login
@@ -66,18 +67,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
       // Simulate fetching user details (You can replace this with data from your backend)
       String userName = 'Asaaba Shallot'; // Sample user name
-      String profileImage = 'assets/default_profile_image.png'; // Sample profile image path
+      String profileImage =
+          'assets/default_profile_image.png'; // Sample profile image path
 
       // Navigate to the Profile screen with user data
-      Navigator.pushReplacement(
+      Navigator.pushReplacementNamed(
         context,
-        MaterialPageRoute(
-          builder: (context) => ProfileScreen(
-            userName: userName,  // Pass userName
-            userEmail: email,    // Pass email
-            profileImage: profileImage,  // Pass profileImage
-          ),
-        ),
+        '/home',
       );
     } else {
       _showErrorSnackBar('Invalid email or password.');

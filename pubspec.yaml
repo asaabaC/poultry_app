@@ -11,9 +11,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.8
-  shared_preferences: ^2.0.16 # Dependency for shared preferences
-  image_picker: ^0.8.5+3 # Added image_picker dependency for profile image upload
+  cupertino_icons: ^1.0.2
+  image_picker: ^1.0.4
+  shared_preferences: ^2.2.2
+  intl: ^0.18.1
+  url_launcher: ^6.2.1
+  provider: ^6.1.1
+  cached_network_image: ^3.3.0
+  supabase_flutter: ^2.0.2
+  google_sign_in: ^6.1.6
+  flutter_dotenv: ^5.1.0
+  fl_chart: ^0.65.0
 
 dev_dependencies:
   flutter_test:
@@ -35,3 +43,5 @@ flutter:
     - assets/logo.jpg
     - assets/shoes.jpg
     - assets/w4vzlj.jpg
+    - assets/google_logo.png
+    - .env

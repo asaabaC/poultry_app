@@ -6,7 +6,7 @@ import 'package:poultry_app/main.dart'; // Correct import path
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(PoultryApp()); // No need for 'const'
+    await tester.pumpWidget(const PoultryApp()); // No need for 'const'
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

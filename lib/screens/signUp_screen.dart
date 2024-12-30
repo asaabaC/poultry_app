@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io'; // Import dart:io to use File
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  SignUpScreenState createState() => SignUpScreenState(); // Use public state class
+  SignUpScreenState createState() =>
+      SignUpScreenState(); // Use public state class
 }
 
-class SignUpScreenState extends State<SignUpScreen> { // Remove underscore to make the class public
+class SignUpScreenState extends State<SignUpScreen> {
+  // Remove underscore to make the class public
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -23,11 +25,41 @@ class SignUpScreenState extends State<SignUpScreen> { // Remove underscore to ma
 
   // Function to pick an image
   Future<void> _pickImage() async {
-    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         _profileImage = pickedFile;
       });
+    }
+  }
+
+  // Local signup function
+  Future<void> _signUp() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        // Store user data
+        await prefs.setString('name', _nameController.text);
+        await prefs.setString('email', _emailController.text);
+        await prefs.setString('userType', _selectedCategory ?? 'customer');
+        if (_profileImage != null) {
+          await prefs.setString('profileImagePath', _profileImage!.path);
+        }
+        
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Sign up successful!')),
+          );
+          Navigator.pushReplacementNamed(context, '/home');
+        }
+      } catch (error) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error signing up: $error')),
+          );
+        }
+      }
     }
   }
 
@@ -78,62 +110,73 @@ class SignUpScreenState extends State<SignUpScreen> { // Remove underscore to ma
                       TextFormField(
                         controller: _passwordController,
                         obscureText: true,
-                        decoration: const InputDecoration(labelText: 'Password'),
+                        decoration:
+                            const InputDecoration(labelText: 'Password'),
                         validator: (value) => value == null || value.isEmpty
                             ? 'Enter a password'
                             : null,
                       ),
+                      const SizedBox(height: 20),
                       DropdownButtonFormField<String>(
                         value: _selectedCategory,
-                        hint: const Text('Select Category'),
-                        items: ['Poultry Farmer', 'Wholesaler', 'Retailer']
-                            .map((category) => DropdownMenuItem(
-                                  value: category,
-                                  child: Text(category),
-                                ))
-                            .toList(),
-                        onChanged: (value) => setState(() {
-                          _selectedCategory = value;
-                        }),
+                        decoration: const InputDecoration(
+                          labelText: 'Select Category',
+                        ),
+                        items: const [
+                          DropdownMenuItem(
+                            value: 'customer',
+                            child: Text('Customer'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'farmer',
+                            child: Text('Farmer'),
+                          ),
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedCategory = value;
+                          });
+                        },
                         validator: (value) =>
                             value == null ? 'Select a category' : null,
                       ),
                       const SizedBox(height: 20),
                       GestureDetector(
-                        onTap: _pickImage, // Allow user to select image
+                        onTap: _pickImage,
                         child: CircleAvatar(
                           radius: 50.0,
                           backgroundColor: Colors.grey[200],
                           backgroundImage: _profileImage != null
-                              ? FileImage(File(_profileImage!.path)) // Convert XFile to File
+                              ? FileImage(File(
+                                  _profileImage!.path)) // Convert XFile to File
                               : null,
                           child: _profileImage == null
                               ? const Icon(
                                   Icons.camera_alt,
                                   size: 50.0,
-                                  color: Colors.orange,
+                                  color: Colors.grey,
                                 )
                               : null,
                         ),
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                        ),
-                        onPressed: () {
-  if (_formKey.currentState!.validate()) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const LoginScreen(), // Use const here
-      ),
-    );
-  }
-},
+                        onPressed: _signUp,
                         child: const Text('Sign Up'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          if (mounted) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const LoginScreen(), // Use const here
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text('Already have an account? Login'),
                       ),
                     ],
                   ),

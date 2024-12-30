@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  final String userName;
+  final String userEmail;
+  final String profileImage;
+
+  const ProfileScreen({
+    super.key,
+    required this.userName,
+    required this.userEmail,
+    this.profileImage = 'assets/default_profile_image.png',
+  });
 
   @override
   Widget build(BuildContext context) {
-    // Get the user data passed from the LoginScreen
-    final Map<String, dynamic> args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-
-    String userName = args['name'] ?? 'Guest';
-    String userEmail = args['email'] ?? 'No email provided';
-    String profileImage = args['profileImage'] ?? 'assets/default_profile_image.png';
-
     return Scaffold(
       appBar: AppBar(title: const Text('Profile')),
       body: Padding(
@@ -20,13 +21,11 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Display profile image
             CircleAvatar(
               radius: 50,
-              backgroundImage: AssetImage(profileImage), // or NetworkImage if using a URL
+              backgroundImage: AssetImage(profileImage),
             ),
             const SizedBox(height: 20),
-            // Display user name and email
             Text(
               'Name: $userName',
               style: const TextStyle(fontSize: 24),

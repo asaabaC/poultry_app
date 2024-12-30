@@ -7,6 +7,12 @@ class Order {
   final List<Product> products;
   final double totalAmount;
   final String orderDate;
+  final String status;
+  final String orderType;
+  final String deliveryPreference;
+  final String paymentStatus;
+  final String buyerType;
+  final String sellerType;
 
   /// Constructor for creating an Order object.
   Order({
@@ -15,6 +21,12 @@ class Order {
     required this.products,
     required this.totalAmount,
     required this.orderDate,
+    required this.status,
+    required this.orderType,
+    required this.deliveryPreference,
+    required this.paymentStatus,
+    required this.buyerType,
+    required this.sellerType,
   });
 
   /// Factory constructor to create an Order object from a JSON map.
@@ -27,6 +39,12 @@ class Order {
           .toList(),
       totalAmount: (json['totalAmount'] ?? 0.0).toDouble(),
       orderDate: json['orderDate'] ?? '',
+      status: json['status'] ?? 'Pending',
+      orderType: json['orderType'] ?? 'Retail',
+      deliveryPreference: json['deliveryPreference'] ?? 'Pickup',
+      paymentStatus: json['paymentStatus'] ?? 'Pending',
+      buyerType: json['buyerType'] ?? 'Retailer',
+      sellerType: json['sellerType'] ?? 'Farmer',
     );
   }
 
@@ -38,6 +56,12 @@ class Order {
       'products': products.map((product) => product.toJson()).toList(),
       'totalAmount': totalAmount,
       'orderDate': orderDate,
+      'status': status,
+      'orderType': orderType,
+      'deliveryPreference': deliveryPreference,
+      'paymentStatus': paymentStatus,
+      'buyerType': buyerType,
+      'sellerType': sellerType,
     };
   }
 }

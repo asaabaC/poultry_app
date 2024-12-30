@@ -24,8 +24,7 @@ class HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: ListView(
         children: [
           // Wallet AppBar
           Container(
@@ -92,9 +91,9 @@ class HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: const Text(
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
               "Welcome to Poultry App! 🐔\nWe are committed to providing you with the best poultry products and services, ensuring your success and growth in the poultry industry. Let's grow together!",
               style: TextStyle(
                 fontSize: 12.0,
@@ -104,43 +103,43 @@ class HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
-              padding: const EdgeInsets.all(10.0),
-              crossAxisSpacing: 10.0,
-              mainAxisSpacing: 10.0,
-              children: [
-                ServiceIcon(
-                  icon: Icons.shopping_bag,
-                  label: 'Products',
-                  onTap: () {
-                    Navigator.pushNamed(context, '/products');
-                  },
-                ),
-                ServiceIcon(
-                  icon: Icons.list_alt,
-                  label: 'Orders',
-                  onTap: () {
-                    Navigator.pushNamed(context, '/orders');
-                  },
-                ),
-                ServiceIcon(
-                  icon: Icons.payment,
-                  label: 'Payments',
-                  onTap: () {
-                    Navigator.pushNamed(context, '/payment');
-                  },
-                ),
-                ServiceIcon(
-                  icon: Icons.settings,
-                  label: 'Management',
-                  onTap: () {
-                    Navigator.pushNamed(context, '/management');
-                  },
-                ),
-              ],
-            ),
+          GridView.count(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            crossAxisCount: 2,
+            padding: const EdgeInsets.all(10.0),
+            crossAxisSpacing: 10.0,
+            mainAxisSpacing: 10.0,
+            children: [
+              ServiceIcon(
+                icon: Icons.shopping_bag,
+                label: 'Products',
+                onTap: () {
+                  Navigator.pushNamed(context, '/products');
+                },
+              ),
+              ServiceIcon(
+                icon: Icons.list_alt,
+                label: 'Orders',
+                onTap: () {
+                  Navigator.pushNamed(context, '/orders');
+                },
+              ),
+              ServiceIcon(
+                icon: Icons.payment,
+                label: 'Payments',
+                onTap: () {
+                  Navigator.pushNamed(context, '/payment');
+                },
+              ),
+              ServiceIcon(
+                icon: Icons.settings,
+                label: 'Management',
+                onTap: () {
+                  Navigator.pushNamed(context, '/management');
+                },
+              ),
+            ],
           ),
         ],
       ),
@@ -152,7 +151,18 @@ class HomeScreenState extends State<HomeScreen> {
             // Navigate to the selected page
             switch (index) {
               case 0:
-                Navigator.pushNamed(context, '/profile'); // My Account
+                Navigator.pushNamed(
+                  context,
+                  '/profile',
+                  arguments: {
+                    'userName':
+                        'Asaaba Shallot', // Replace with actual user name from your auth system
+                    'userEmail':
+                        'user@example.com', // Replace with actual user email from your auth system
+                    'profileImage':
+                        'assets/default_profile_image.png', // Replace with actual profile image path
+                  },
+                );
                 break;
               case 1:
                 // Already on Home
