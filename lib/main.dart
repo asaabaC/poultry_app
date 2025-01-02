@@ -6,6 +6,7 @@ import 'screens/product_page.dart';
 import 'screens/payment_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/farmer_product_management.dart';
+import 'screens/order_screen.dart';
 import 'models/product.dart';
 
 void main() {
@@ -24,40 +25,49 @@ class PoultryApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      initialRoute: '/login',
+      initialRoute: '/login', // Default route
       routes: {
         '/signup': (context) => const SignUpScreen(),
         '/login': (context) => const LoginScreen(),
         '/home': (context) => const HomeScreen(),
         '/products': (context) {
-          final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+          // Ensure a fallback if arguments are null
+          final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>? ?? {};
           return ProductPage(
-            userType: args?['userType'] as String? ?? 'Retailer',
+            userType: args['userType'] ?? 'Retailer', // Default to 'Retailer'
           );
         },
         '/farmer/products': (context) => const FarmerProductManagement(),
         '/profile': (context) {
-          final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+          // Ensure a fallback if arguments are null
+          final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>? ?? {};
           return ProfileScreen(
-            userName: args?['userName'] as String? ?? 'Guest User',
-            userEmail: args?['userEmail'] as String? ?? 'guest@example.com',
-            profileImage: args?['profileImage'] as String? ?? 'assets/logo.jpg',
+            userName: args['userName'] ?? 'Guest User', // Default userName
+            userEmail: args['userEmail'] ?? 'guest@example.com', // Default userEmail
+            profileImage: args['profileImage'] ?? 'assets/logo.jpg', // Default profileImage
+          );
+        },
+        '/order': (context) {
+          // Ensure a fallback if arguments are null
+          final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>? ?? {};
+          return OrderScreen(
+            userType: args['userType'] ?? 'Retailer', // Default to 'Retailer'
           );
         },
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/payment') {
-          final args = settings.arguments as Map<String, dynamic>;
+          final args = settings.arguments as Map<String, dynamic>? ?? {};
           return MaterialPageRoute(
             builder: (context) => PaymentScreen(
-              products: args['products'] as List<Product>,
-              orderType: args['orderType'] as String,
-              deliveryPreference: args['deliveryPreference'] as String,
-              buyerType: args['buyerType'] as String,
+              products: args['products'] as List<Product>? ?? [], // Fallback to an empty list
+              orderType: args['orderType'] ?? '', // Fallback to an empty string
+              deliveryPreference: args['deliveryPreference'] ?? '', // Fallback to an empty string
+              buyerType: args['buyerType'] ?? '', // Fallback to an empty string
             ),
           );
         }
-        return null;
+        return null; // Return null for unhandled routes
       },
     );
   }

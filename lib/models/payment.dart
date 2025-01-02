@@ -4,6 +4,7 @@ class Payment {
   final String productId;
   final double amount;
   final String paymentDate;
+  final String periodFilter; // Period filter property
 
   Payment({
     required this.id,
@@ -11,6 +12,7 @@ class Payment {
     required this.productId,
     required this.amount,
     required this.paymentDate,
+    required this.periodFilter, // Include periodFilter in constructor
   });
 
   // Convert JSON to Payment object
@@ -21,6 +23,7 @@ class Payment {
       productId: json['productId'],
       amount: json['amount'].toDouble(),
       paymentDate: json['paymentDate'],
+      periodFilter: json['periodFilter'] ?? 'Month', // Default to 'Month' if not present in JSON
     );
   }
 
@@ -32,6 +35,7 @@ class Payment {
       'productId': productId,
       'amount': amount,
       'paymentDate': paymentDate,
+      'periodFilter': periodFilter, // Include periodFilter in JSON
     };
   }
 }

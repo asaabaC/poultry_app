@@ -28,37 +28,44 @@ class _FarmerProductManagementState extends State<FarmerProductManagement> {
     'Other'
   ];
 
-  @override
-  void initState() {
-    super.initState();
-    // Load initial products
-    _products.addAll([
-      Product(
-        id: 'p1',
-        name: 'Broilers',
-        wholesalePrice: 25000,
-        retailPrice: 28000,
-        quantity: 150,
-        minWholesaleQuantity: 20,
-        description: 'Healthy broilers, ready for sale',
-        category: 'Broilers',
-        farmerId: 'farmer1',
-        images: ['assets/broiler.jpg'],
-      ),
-      Product(
-        id: 'p2',
-        name: 'Layers',
-        wholesalePrice: 30000,
-        retailPrice: 33000,
-        quantity: 200,
-        minWholesaleQuantity: 15,
-        description: 'Productive layers, good egg laying rate',
-        category: 'Layers',
-        farmerId: 'farmer1',
-        images: ['assets/layers.jpg'],
-      ),
-    ]);
-  }
+ @override
+void initState() {
+  super.initState();
+  // Load initial products
+  _products.addAll([
+    Product(
+      id: 'p1',
+      name: 'Broilers',
+      wholesalePrice: 25000,
+      retailPrice: 28000,
+      quantity: 150,
+      minWholesaleQuantity: 20,
+      description: 'Healthy broilers, ready for sale',
+      category: 'Broilers',
+      farmerId: 'farmer1',
+      images: [
+        'assets/vertical-closeup-shot-brown-chicken-blurred-background_181624-35804.jpg',
+        'assets/broiler-chicken.jpg', // Additional image for Broilers
+      ],
+    ),
+    Product(
+      id: 'p2',
+      name: 'Layers',
+      wholesalePrice: 30000,
+      retailPrice: 33000,
+      quantity: 200,
+      minWholesaleQuantity: 15,
+      description: 'Productive layers, good egg laying rate',
+      category: 'Layers',
+      farmerId: 'farmer1',
+      images: [
+        'assets/hen_151155842_1000.jpg',
+        'assets/layer-chicken.jpg', // Additional image for Layers
+      ],
+    ),
+  ]);
+}
+
 
   Future<void> _pickImage() async {
     try {

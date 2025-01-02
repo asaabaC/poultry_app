@@ -26,7 +26,7 @@ class HomeScreenState extends State<HomeScreen> {
       ),
       body: ListView(
         children: [
-          // Wallet AppBar
+          // Wallet AppBar Section
           Container(
             color: Colors.orangeAccent,
             padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -78,6 +78,7 @@ class HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const SizedBox(height: 10.0),
+          // Banner Section
           Center(
             child: Container(
               width: 100,
@@ -103,6 +104,7 @@ class HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
+          // Services Grid
           GridView.count(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -122,53 +124,42 @@ class HomeScreenState extends State<HomeScreen> {
                 icon: Icons.list_alt,
                 label: 'Orders',
                 onTap: () {
-                  Navigator.pushNamed(context, '/orders');
+                  Navigator.pushNamed(context, '/order'); // Matches '/order' route
                 },
               ),
               ServiceIcon(
                 icon: Icons.payment,
                 label: 'Payments',
                 onTap: () {
-                  Navigator.pushNamed(context, '/payment');
+                  Navigator.pushNamed(context, '/payment'); // Matches '/payment' route
                 },
               ),
               ServiceIcon(
                 icon: Icons.settings,
                 label: 'Management',
                 onTap: () {
-                  Navigator.pushNamed(context, '/management');
+                  Navigator.pushNamed(context, '/farmer/products'); // Matches '/farmer/products' route
                 },
               ),
             ],
           ),
         ],
       ),
+      // Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
-            // Navigate to the selected page
             switch (index) {
               case 0:
-                Navigator.pushNamed(
-                  context,
-                  '/profile',
-                  arguments: {
-                    'userName':
-                        'Asaaba Shallot', // Replace with actual user name from your auth system
-                    'userEmail':
-                        'user@example.com', // Replace with actual user email from your auth system
-                    'profileImage':
-                        'assets/default_profile_image.png', // Replace with actual profile image path
-                  },
-                );
+                Navigator.pushNamed(context, '/profile');
                 break;
               case 1:
-                // Already on Home
+                // Stay on Home
                 break;
               case 2:
-                Navigator.pushNamed(context, '/activities'); // Activities
+                Navigator.pushNamed(context, '/activities');
                 break;
             }
           });
@@ -194,6 +185,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 }
 
+// Wallet Action Icon Widget
 class WalletActionIcon extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -236,6 +228,7 @@ class WalletActionIcon extends StatelessWidget {
   }
 }
 
+// Service Icon Widget
 class ServiceIcon extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -253,14 +246,11 @@ class ServiceIcon extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 40, // Reduced size of the container
-        height: 40, // Reduced size of the container
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             colors: [Colors.orange, Colors.orangeAccent],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            stops: [0.2, 1],
           ),
           borderRadius: BorderRadius.circular(16.0),
           boxShadow: const [
@@ -271,24 +261,20 @@ class ServiceIcon extends StatelessWidget {
             ),
           ],
         ),
-        child: Card(
-          elevation: 0.0,
-          color: Colors.transparent,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, size: 30.0, color: Colors.white), // Reduced icon size
-              const SizedBox(height: 8.0),
-              Text(
-                label,
-                style: const TextStyle(
-                  fontSize: 12.0, // Reduced label font size
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 30.0, color: Colors.white),
+            const SizedBox(height: 8.0),
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

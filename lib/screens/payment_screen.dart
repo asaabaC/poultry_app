@@ -27,9 +27,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
   bool _isProcessing = false;
 
   double get totalAmount {
+    if (widget.products.isEmpty) {
+      return 0;
+    }
     return widget.products.fold(0, (sum, product) {
-      final price = widget.orderType == 'Wholesale' 
-          ? product.wholesalePrice 
+      final price = widget.orderType == 'Wholesale'
+          ? product.wholesalePrice
           : product.retailPrice;
       return sum + (price * product.quantity);
     });
@@ -42,13 +45,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
       _isProcessing = true;
     });
 
-    // Simulate payment processing
     Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         _isProcessing = false;
       });
 
-      // Show success dialog
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -142,7 +143,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Payment'),
-        backgroundColor: Colors.orange,
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -203,6 +204,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           ],
                         ),
                       )),
+
                       const Divider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -246,80 +248,50 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 const SizedBox(height: 24),
 
                 // Payment Details
-                if (_selectedPaymentMethod == 'Mobile Money') ...[
-                  const Text(
-                    'Enter Mobile Money Details',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _phoneController,
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
-                      labelText: 'Phone Number',
-                      hintText: 'Enter your mobile money number',
-                      prefixIcon: const Icon(Icons.phone),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your phone number';
-                      }
-                      if (!value.startsWith('+256') && !value.startsWith('256')) {
-                        return 'Please enter a valid Ugandan phone number';
-                      }
-                      return null;
-                    },
-                  ),
-                ],
-
-                const SizedBox(height: 32),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _isProcessing ? null : _processPayment,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: _isProcessing
-                        ? const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.white),
-                            ),
-                          )
-                        : const Text(
-                            'Proceed to Payment',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                const Text(
+                  'Payment Details',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _phoneController,
+                  decoration: const InputDecoration(
+                    labelText: 'Phone Number',
+                    prefixIcon: Icon(Icons.phone),
+                    border: OutlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.phone,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your phone number';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 24),
+
+                // Pay Button
+                _isProcessing
+                    ? const Center(child: CircularProgressIndicator())
+                    : ElevatedButton(
+                        onPressed: _processPayment,
+                        child: const Text('Proceed to Pay'),
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 50),
+                          textStyle: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _phoneController.dispose();
-    super.dispose();
   }
 }

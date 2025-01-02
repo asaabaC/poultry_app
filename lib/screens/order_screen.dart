@@ -5,8 +5,8 @@ import '../models/product.dart';
 
 class OrderScreen extends StatefulWidget {
   final String userType; // 'farmer', 'wholesaler', or 'retailer'
-  
-  const OrderScreen({super.key, required this.userType});
+
+  const OrderScreen({Key? key, required this.userType}) : super(key: key);
 
   @override
   State<OrderScreen> createState() => _OrderScreenState();
@@ -14,6 +14,7 @@ class OrderScreen extends StatefulWidget {
 
 class _OrderScreenState extends State<OrderScreen> {
   final List<Order> orders = [
+    // Example orders
     Order(
       id: 'ORD001',
       userId: 'user1',
@@ -50,31 +51,7 @@ class _OrderScreenState extends State<OrderScreen> {
       buyerType: 'Wholesaler',
       sellerType: 'Farmer',
     ),
-    Order(
-      id: 'ORD002',
-      userId: 'user1',
-      products: [
-        Product(
-          id: 'p3',
-          name: 'Layers',
-          wholesalePrice: 30000,
-          retailPrice: 33000,
-          quantity: 20,
-          minWholesaleQuantity: 15,
-          description: 'Productive layers, good egg laying rate',
-          category: 'Layers',
-          farmerId: 'farmer1',
-        ),
-      ],
-      totalAmount: 600000,
-      orderDate: '2024-12-29',
-      status: 'Confirmed',
-      orderType: 'Retail',
-      deliveryPreference: 'Pickup',
-      paymentStatus: 'Paid',
-      buyerType: 'Retailer',
-      sellerType: 'Wholesaler',
-    ),
+    // Add more orders here if needed
   ];
 
   String _selectedFilter = 'All';
@@ -85,26 +62,24 @@ class _OrderScreenState extends State<OrderScreen> {
   List<Order> get filteredOrders {
     return orders.where((order) {
       // Apply search filter
-      bool matchesSearch = order.id.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+      final matchesSearch = order.id.toLowerCase().contains(_searchQuery.toLowerCase()) ||
           order.products.any((product) =>
               product.name.toLowerCase().contains(_searchQuery.toLowerCase()));
 
       // Apply status filter
-      bool matchesStatus = _statusFilter == 'All Status' || order.status == _statusFilter;
+      final matchesStatus = _statusFilter == 'All Status' || order.status == _statusFilter;
 
       // Apply type filter
-      bool matchesType = _typeFilter == 'All Types' || order.orderType == _typeFilter;
+      final matchesType = _typeFilter == 'All Types' || order.orderType == _typeFilter;
 
       // Apply time filter
       bool matchesTimeFilter = true;
       if (_selectedFilter == 'Week') {
         final orderDate = DateTime.parse(order.orderDate);
-        final now = DateTime.now();
-        matchesTimeFilter = now.difference(orderDate).inDays <= 7;
+        matchesTimeFilter = DateTime.now().difference(orderDate).inDays <= 7;
       } else if (_selectedFilter == 'Month') {
         final orderDate = DateTime.parse(order.orderDate);
-        final now = DateTime.now();
-        matchesTimeFilter = now.difference(orderDate).inDays <= 30;
+        matchesTimeFilter = DateTime.now().difference(orderDate).inDays <= 30;
       }
 
       return matchesSearch && matchesStatus && matchesType && matchesTimeFilter;
@@ -137,6 +112,7 @@ class _OrderScreenState extends State<OrderScreen> {
       ),
       body: Column(
         children: [
+          // Filters Section
           Container(
             padding: const EdgeInsets.all(16),
             color: Colors.orange[50],
@@ -159,102 +135,44 @@ class _OrderScreenState extends State<OrderScreen> {
                   },
                 ),
                 const SizedBox(height: 16),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      FilterChip(
-                        label: const Text('All Status'),
-                        selected: _statusFilter == 'All Status',
-                        onSelected: (selected) {
-                          setState(() {
-                            _statusFilter = 'All Status';
-                          });
-                        },
-                      ),
-                      const SizedBox(width: 8),
-                      FilterChip(
-                        label: const Text('Pending'),
-                        selected: _statusFilter == 'Pending',
-                        onSelected: (selected) {
-                          setState(() {
-                            _statusFilter = 'Pending';
-                          });
-                        },
-                      ),
-                      const SizedBox(width: 8),
-                      FilterChip(
-                        label: const Text('Confirmed'),
-                        selected: _statusFilter == 'Confirmed',
-                        onSelected: (selected) {
-                          setState(() {
-                            _statusFilter = 'Confirmed';
-                          });
-                        },
-                      ),
-                      const SizedBox(width: 8),
-                      FilterChip(
-                        label: const Text('In Transit'),
-                        selected: _statusFilter == 'In Transit',
-                        onSelected: (selected) {
-                          setState(() {
-                            _statusFilter = 'In Transit';
-                          });
-                        },
-                      ),
-                      const SizedBox(width: 8),
-                      FilterChip(
-                        label: const Text('Delivered'),
-                        selected: _statusFilter == 'Delivered',
-                        onSelected: (selected) {
-                          setState(() {
-                            _statusFilter = 'Delivered';
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 8),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      FilterChip(
-                        label: const Text('All Types'),
-                        selected: _typeFilter == 'All Types',
-                        onSelected: (selected) {
-                          setState(() {
-                            _typeFilter = 'All Types';
-                          });
-                        },
-                      ),
-                      const SizedBox(width: 8),
-                      FilterChip(
-                        label: const Text('Wholesale'),
-                        selected: _typeFilter == 'Wholesale',
-                        onSelected: (selected) {
-                          setState(() {
-                            _typeFilter = 'Wholesale';
-                          });
-                        },
-                      ),
-                      const SizedBox(width: 8),
-                      FilterChip(
-                        label: const Text('Retail'),
-                        selected: _typeFilter == 'Retail',
-                        onSelected: (selected) {
-                          setState(() {
-                            _typeFilter = 'Retail';
-                          });
-                        },
-                      ),
-                    ],
-                  ),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    FilterChip(
+                      label: const Text('All Status'),
+                      selected: _statusFilter == 'All Status',
+                      onSelected: (selected) {
+                        setState(() {
+                          _statusFilter = 'All Status';
+                        });
+                      },
+                    ),
+                    FilterChip(
+                      label: const Text('Pending'),
+                      selected: _statusFilter == 'Pending',
+                      onSelected: (selected) {
+                        setState(() {
+                          _statusFilter = 'Pending';
+                        });
+                      },
+                    ),
+                    FilterChip(
+                      label: const Text('Confirmed'),
+                      selected: _statusFilter == 'Confirmed',
+                      onSelected: (selected) {
+                        setState(() {
+                          _statusFilter = 'Confirmed';
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
+
+          // Orders List
           Expanded(
             child: filteredOrders.isEmpty
                 ? const Center(
@@ -272,148 +190,9 @@ class _OrderScreenState extends State<OrderScreen> {
                           horizontal: 16,
                           vertical: 8,
                         ),
-                        elevation: 4,
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Order ${order.id}',
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                      vertical: 4,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: _getStatusColor(order.status)
-                                          .withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(
-                                        color: _getStatusColor(order.status),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      order.status,
-                                      style: TextStyle(
-                                        color: _getStatusColor(order.status),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 8),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    order.orderDate,
-                                    style: const TextStyle(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  Text(
-                                    order.orderType,
-                                    style: const TextStyle(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const Divider(),
-                              ...order.products.map((product) => Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 4),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                product.name,
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                              Text(
-                                                'Category: ${product.category}',
-                                                style: const TextStyle(
-                                                  color: Colors.grey,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              '${product.quantity} x UGX ${NumberFormat('#,###').format(order.orderType == 'Wholesale' ? product.wholesalePrice : product.retailPrice)}',
-                                              style: const TextStyle(
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            Text(
-                                              'UGX ${NumberFormat('#,###').format((order.orderType == 'Wholesale' ? product.wholesalePrice : product.retailPrice) * product.quantity)}',
-                                              style: const TextStyle(
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                              const Divider(),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Delivery: ${order.deliveryPreference}',
-                                        style: const TextStyle(
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Payment: ${order.paymentStatus}',
-                                        style: TextStyle(
-                                          color: order.paymentStatus == 'Paid'
-                                              ? Colors.green
-                                              : Colors.orange,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    'UGX ${NumberFormat('#,###').format(order.totalAmount)}',
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.orange,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                        child: ListTile(
+                          title: Text('Order ${order.id}'),
+                          subtitle: Text(order.status),
                         ),
                       );
                     },
